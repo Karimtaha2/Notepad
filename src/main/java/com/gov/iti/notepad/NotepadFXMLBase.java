@@ -31,16 +31,16 @@ public class NotepadFXMLBase extends BorderPane {
     protected final MenuItem newFileMenuItem;
     protected final MenuItem openFileMenuItem;
     protected final MenuItem saveFileMenuItem;
-    protected final SeparatorMenuItem separatorMenuItem;
+    protected final SeparatorMenuItem separatorFileMenuItem;
     protected final MenuItem exitFileMenuItem;
     protected final Menu editMenu;
     protected final MenuItem undoEditMenuItem;
-    protected final SeparatorMenuItem separatorMenuItem0;
+    protected final SeparatorMenuItem separatorEditMenuItem0;
     protected final MenuItem cutEditMenuItem;
     protected final MenuItem copyEditMenuItem;
     protected final MenuItem pasteEditMenuItem;
     protected final MenuItem deleteEditMenuItem;
-    protected final SeparatorMenuItem separatorMenuItem1;
+    protected final SeparatorMenuItem separatorEditMenuItem1;
     protected final MenuItem selectAllEditMenuItem;
     protected final Menu helpMenu;
     protected final MenuItem aboutHelpMenuItem;
@@ -52,8 +52,6 @@ public class NotepadFXMLBase extends BorderPane {
 
     protected String nameFile = "Untitled - Notepad";
 
-    App app = new App();
-            
     public NotepadFXMLBase() {
 
         menuBar = new MenuBar();
@@ -61,16 +59,16 @@ public class NotepadFXMLBase extends BorderPane {
         newFileMenuItem = new MenuItem();
         openFileMenuItem = new MenuItem();
         saveFileMenuItem = new MenuItem();
-        separatorMenuItem = new SeparatorMenuItem();
+        separatorFileMenuItem = new SeparatorMenuItem();
         exitFileMenuItem = new MenuItem();
         editMenu = new Menu();
         undoEditMenuItem = new MenuItem();
-        separatorMenuItem0 = new SeparatorMenuItem();
+        separatorEditMenuItem0 = new SeparatorMenuItem();
         cutEditMenuItem = new MenuItem();
         copyEditMenuItem = new MenuItem();
         pasteEditMenuItem = new MenuItem();
         deleteEditMenuItem = new MenuItem();
-        separatorMenuItem1 = new SeparatorMenuItem();
+        separatorEditMenuItem1 = new SeparatorMenuItem();
         selectAllEditMenuItem = new MenuItem();
         helpMenu = new Menu();
         aboutHelpMenuItem = new MenuItem();
@@ -117,7 +115,7 @@ public class NotepadFXMLBase extends BorderPane {
             saveFileMenuItemEvent();
         });
 
-        separatorMenuItem.setMnemonicParsing(false);
+        separatorFileMenuItem.setMnemonicParsing(false);
 
         exitFileMenuItem.setId("exitMenuItem");
         exitFileMenuItem.setMnemonicParsing(false);
@@ -137,7 +135,7 @@ public class NotepadFXMLBase extends BorderPane {
             textArea.undo();
         });
 
-        separatorMenuItem0.setMnemonicParsing(false);
+        separatorEditMenuItem0.setMnemonicParsing(false);
 
         cutEditMenuItem.setId("cutMenuItem");
         cutEditMenuItem.setMnemonicParsing(false);
@@ -167,7 +165,7 @@ public class NotepadFXMLBase extends BorderPane {
             textArea.replaceSelection("");
         });
 
-        separatorMenuItem1.setMnemonicParsing(false);
+        separatorEditMenuItem1.setMnemonicParsing(false);
 
         selectAllEditMenuItem.setId("selectAllMenuItem");
         selectAllEditMenuItem.setMnemonicParsing(false);
@@ -212,23 +210,12 @@ public class NotepadFXMLBase extends BorderPane {
         HBox.setMargin(label, new Insets(3.0, 0.0, 3.0, 5.0));
         setBottom(hBox);
 
-        fileMenu.getItems().add(newFileMenuItem);
-        fileMenu.getItems().add(openFileMenuItem);
-        fileMenu.getItems().add(saveFileMenuItem);
-        fileMenu.getItems().add(separatorMenuItem);
-        fileMenu.getItems().add(exitFileMenuItem);
-        menuBar.getMenus().add(fileMenu);
-        editMenu.getItems().add(undoEditMenuItem);
-        editMenu.getItems().add(separatorMenuItem0);
-        editMenu.getItems().add(cutEditMenuItem);
-        editMenu.getItems().add(copyEditMenuItem);
-        editMenu.getItems().add(pasteEditMenuItem);
-        editMenu.getItems().add(deleteEditMenuItem);
-        editMenu.getItems().add(separatorMenuItem1);
-        editMenu.getItems().add(selectAllEditMenuItem);
-        menuBar.getMenus().add(editMenu);
+        fileMenu.getItems().addAll(newFileMenuItem, openFileMenuItem, saveFileMenuItem, separatorFileMenuItem, exitFileMenuItem);
+        editMenu.getItems().addAll(undoEditMenuItem, separatorEditMenuItem0, cutEditMenuItem, copyEditMenuItem, pasteEditMenuItem, deleteEditMenuItem, separatorEditMenuItem1, selectAllEditMenuItem);
         helpMenu.getItems().add(aboutHelpMenuItem);
-        menuBar.getMenus().add(helpMenu);
+
+        menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
+
         hBox.getChildren().add(label);
     }
 
@@ -245,12 +232,10 @@ public class NotepadFXMLBase extends BorderPane {
                     textArea.setText(scanner.nextLine() + '\n');
                 }
                 scanner.close();
-                
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
         }
-
         System.out.println("name file 'open' -> " + nameFile);
     }
 
@@ -258,7 +243,6 @@ public class NotepadFXMLBase extends BorderPane {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text files (*.txt)", "*.txt"));
         File saveFile = fileChooser.showSaveDialog(null);
-
         try {
             FileWriter fileWriter;
             fileWriter = new FileWriter(saveFile);
@@ -269,7 +253,6 @@ public class NotepadFXMLBase extends BorderPane {
             System.out.println("Error in FileWriter (Save File) -> " + e.getMessage());
         }
         System.out.println("name file 'save' -> " + nameFile);
-
     }
 
     public void exitFileMenuItemEvent() {

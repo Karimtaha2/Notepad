@@ -9,14 +9,10 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-
         NotepadFXMLBase root = new NotepadFXMLBase();
         stage.setTitle(root.nameFile);
-
         stage.getIcons().add(new Image(App.class.getResourceAsStream("/notepadIcon.png")));
-
         Scene scene = new Scene(root);
-
         stage.setScene(scene);
         stage.show();
     }
